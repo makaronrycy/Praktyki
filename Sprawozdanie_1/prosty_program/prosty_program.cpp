@@ -3,12 +3,11 @@
 
 #include <iostream>
 #include <cmath>
-#include <conio.h>
 void suma() {
-    int sum = 0, number, value;
+    float sum = 0, number, value;
     std::cout << "Ile chcesz liczb zsumowac: ";
     std::cin >> number;
-    std::cout << "\n Podaj liczby jedna po drugiej:\n";
+    std::cout << "Podaj liczby jedna po drugiej:\n";
     for (int i = 0; i < number; i++) {
         std::cin >> value;
         sum += value;
@@ -16,20 +15,67 @@ void suma() {
     std::cout << "\nSuma tych liczb jest rowna: " << sum;
 }
 void roznica() {
-    int sub, nrFirst, nrSecond;
-    std::cout << "Wpisz odjemna:";
+    float sub, nrFirst, nrSecond;
+    std::cout << "Wpisz odjemna: ";
     std::cin >> nrFirst;
-    std::cout << "\n Wpisz odjemnik";
+    std::cout << "Wpisz odjemnik: ";
     std::cin >> nrSecond;
     sub = nrFirst - nrSecond;
     std::cout << "Roznica tych dwoch liczb wynosi: " << sub;
+}
+void iloczyn() {
+    float multiplication, nrFirst, nrSecond;
+    std::cout << "Wpisz pierwszy czynnik: ";
+    std::cin >> nrFirst;
+    std::cout << "Wpisz drugi czynnik: ";
+    std::cin >> nrSecond;
+    multiplication = nrFirst * nrSecond;
+    std::cout << "Iloczyn tych dwoch liczb wynosi: " << multiplication;
+}
+void iloraz() {
+    float division, nrFirst, nrSecond;
+    std::cout << "Wpisz dzielna: ";
+    std::cin >> nrFirst;
+    std::cout << "Wpisz dzielnik: ";
+    std::cin >> nrSecond;
+    division = nrFirst / nrSecond;
+    std::cout << "Iloraz tych dwoch liczb wynosi: " << division;
+}
+void potega() {
+    float result, base, power;
+    std::cout << "Podaj podstawe potegi: ";
+    std::cin >> base;
+    std::cout << "Podaj wykladnik potegi: ";
+    std::cin >> power;
+    result = pow(base, power);
+    std::cout << "Potega wynosi:" << result;
+}
+void pierwiastek() {
+    long double result, base, root;
+    std::cout << "Podaj podstawe pierwiastka: ";
+    std::cin >> base;
+    std::cout << "Podaj pierwiastek: ";
+    std::cin >> root;
+    result = pow(base, 1.0 / root);
+    std::cout << "Pierwiastek wynosi: " << result;
+}
+void silnia(){
+    long double result = 1;
+    int factorial;
+    std::cout << "Podaj liczbe naturalna: ";
+    std::cin >> factorial;
+    for (int i = 1; i <= factorial; i++) {
+        result *= i;
+    }
+    std::cout << "Silnia wynosi: " << result;
 }
 
 int main()
 {
     int choice;
     do {
-        std::cout << "Witaj w kalkulatorze! Wybierz operacje jaką chciałbyś wykonać:!\n"
+        std::cout << "\n----------------------------------------------------------------\n";
+        std::cout << "Witaj w kalkulatorze! Wybierz operacje jaka chcialbys wykonac!:\n"
             << "1:Suma\n"
             << "2:Roznica\n"
             << "3:Iloczyn\n"
@@ -65,11 +111,10 @@ int main()
             exit(0);
             break;
         default:
-            std::cout << "Błąd!";
+            std::cout << "Blad!";
             break;
         }
     } while (choice != 8);
-    _getch();
 }
 
 // Uruchomienie programu: Ctrl + F5 lub menu Debugowanie > Uruchom bez debugowania
