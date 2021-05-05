@@ -2,12 +2,32 @@
 //
 
 #include <iostream>
-#include <math.h>
+#include <cmath>
 #include <conio.h>
+void suma() {
+    int sum = 0, number, value;
+    std::cout << "Ile chcesz liczb zsumowac: ";
+    std::cin >> number;
+    std::cout << "\n Podaj liczby jedna po drugiej:\n";
+    for (int i = 0; i < number; i++) {
+        std::cin >> value;
+        sum += value;
+    };
+    std::cout << "\nSuma tych liczb jest rowna: " << sum;
+}
+void roznica() {
+    int sub, nrFirst, nrSecond;
+    std::cout << "Wpisz odjemna:";
+    std::cin >> nrFirst;
+    std::cout << "\n Wpisz odjemnik";
+    std::cin >> nrSecond;
+    sub = nrFirst - nrSecond;
+    std::cout << "Roznica tych dwoch liczb wynosi: " << sub;
+}
 
 int main()
 {
-    int x;
+    int choice;
     do {
         std::cout << "Witaj w kalkulatorze! Wybierz operacje jaką chciałbyś wykonać:!\n"
             << "1:Suma\n"
@@ -16,10 +36,10 @@ int main()
             << "4:Iloraz\n"
             << "5:Potega\n"
             << "6:Pierwiastek\n"
-            << "7:Silnia\n";
-        << "8:Wyjdz z programu\n"
-            cin >> x;
-        switch (x) {
+            << "7:Silnia\n"
+            << "8:Wyjdz z programu\n";
+        std::cin >> choice;
+        switch (choice) {
         case 1:
             suma();
             break;
@@ -48,28 +68,8 @@ int main()
             std::cout << "Błąd!";
             break;
         }
-    } while (x != 8);
-        _getch();
-}
-void suma() {
-    int sum = 0, number, value;
-    std::cout << "Ile chcesz liczb zsumowac: ";
-    std::cin >> number;
-    std::cout << "\n Podaj liczby jedna po drugiej:\n";
-    for (int i = 0; i < number; i++){
-        std::cin >> value;
-        sum += value;
-    }
-    std::cout << "\nSuma tych liczb jest rowna: " << sum;
-}
-void roznica() {
-    int sub, nrFirst, nrSecond;
-    std::cout << "Wpisz odjemna:";
-    std::cin >> nrFirst;
-    std::cout << "\n Wpisz odjemnik";
-    std::cin >> nrSecond;
-    sub = nrFirst - nrSecond;
-    std::cout << "Roznica tych dwoch liczb wynosi: " << sub;
+    } while (choice != 8);
+    _getch();
 }
 
 // Uruchomienie programu: Ctrl + F5 lub menu Debugowanie > Uruchom bez debugowania

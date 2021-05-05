@@ -1,2 +1,8 @@
 ﻿  prosty_program.cpp
-  prosty_program.vcxproj -> E:\Projekty\Praktyki\Sprawozdanie_1\prosty_program\Debug\prosty_program.exe
+E:\Projekty\Praktyki\Sprawozdanie_1\prosty_program\prosty_program.cpp(24,13): error C3861: "suma": identyfikatora nie odnaleziono
+E:\Projekty\Praktyki\Sprawozdanie_1\prosty_program\prosty_program.cpp(27,13): error C3861: "roznica": identyfikatora nie odnaleziono
+E:\Projekty\Praktyki\Sprawozdanie_1\prosty_program\prosty_program.cpp(30,13): error C3861: "iloczyn": identyfikatora nie odnaleziono
+E:\Projekty\Praktyki\Sprawozdanie_1\prosty_program\prosty_program.cpp(33,13): error C3861: "iloraz": identyfikatora nie odnaleziono
+E:\Projekty\Praktyki\Sprawozdanie_1\prosty_program\prosty_program.cpp(36,13): error C3861: "potega": identyfikatora nie odnaleziono
+E:\Projekty\Praktyki\Sprawozdanie_1\prosty_program\prosty_program.cpp(39,13): error C3861: "pierwiastek": identyfikatora nie odnaleziono
+E:\Projekty\Praktyki\Sprawozdanie_1\prosty_program\prosty_program.cpp(42,13): error C3861: "silnia": identyfikatora nie odnaleziono
