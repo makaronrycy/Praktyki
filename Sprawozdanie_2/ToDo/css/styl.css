@@ -1,0 +1,10 @@
+#list{
+    font-size: 3em;
+    list-style: none;
+}
+.fa-check-circle:hover{
+    color:greenyellow;
+}
+.fa-times-circle:hover{
+    color:red;
+}
