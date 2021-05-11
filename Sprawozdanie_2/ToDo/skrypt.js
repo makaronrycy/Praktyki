@@ -13,7 +13,7 @@ window.onload = function(){
     const failure = "fail";
     
     let store, id;
-
+    //sprawdzanie czy dane były wcześniej tworzone, jeśli tak to przywoływanie ich 
     if(data){
         store = JSON.parse(data);
         loadToDo(store);
@@ -29,6 +29,7 @@ window.onload = function(){
             addToDo(item.id, item.name, item.datetime, item.done, item.trash, item.fail);
         });
     };
+    //czyszczenie pamięci
     clear.addEventListener("click",function(){
         localStorage.clear();
         location.reload();
@@ -63,10 +64,11 @@ window.onload = function(){
         const position = "beforeend";
         list.insertAdjacentHTML(position,html);
         if(fail==false && done == false && datetime != null){
+            //inicjalizowanie zegara
             initializeClock('clockdiv', datetime, id);
         }
     };
-
+    //odznaczanie i zaznacznie ToDo
     function checkToDo(element){
         element.classList.toggle(check);
         element.classList.toggle(uncheck);
@@ -78,12 +80,13 @@ window.onload = function(){
         element.parentNode.parentNode.removeChild(element.parentNode);
         store[element.id].trash = true;
     };
+    //edytowanie nazwy ToDo
     function editToDo(element){
         const edit = window.prompt("Na jaką nazwe chcesz zmienić ToDo?","Posprzątać pokój");
         element.parentNode.querySelector(".text").innerHTML = edit;
         store[element.id].name = edit;
     }
-    
+    //funkcja wykonywana kiedy skończy się termin dla ToDo, jeśli go ma  
     function failToDo(element,failId){
         console.log(element);
         const storeId = failId;
@@ -92,7 +95,7 @@ window.onload = function(){
         store[storeId].fail = true;
         element.remove();
     }
-
+    //Event Listener, nasłuchiwający przycisków
     list.addEventListener("click",function(event){
         const element = event.target;
         const job = element.attributes.job.value;
@@ -103,10 +106,10 @@ window.onload = function(){
         }else if(job == "edit"){
             editToDo(element);
         }
+        //każda zmiana jest zapisywana w tablicy
         localStorage.setItem("ToDo",JSON.stringify(store));
     });
-    
-
+    //nasłuchiwanie enter
     document.addEventListener("keyup",function(event){
         if(event.key == "Enter"){
             const name = inputName.value;
@@ -143,7 +146,7 @@ window.onload = function(){
                 }
         
     });
-    
+    //funkcja zwracająca ilość czasu jakąa została
     function getTimeRemaining(endtime) {
         const total = Date.parse(endtime) - Date.parse(new Date());
         const seconds = Math.floor((total / 1000) % 60);
@@ -159,16 +162,16 @@ window.onload = function(){
           seconds
         };
       }
-      
+    //funkcja inicjalizująca zegar dla ToDo
       function initializeClock(element, endtime,id) {
-          console.log("Konsola");
         const elementId = element.concat(id);
         const clock = document.getElementById(elementId);
         const daysSpan = clock.querySelector('.days');
         const hoursSpan = clock.querySelector('.hours');
         const minutesSpan = clock.querySelector('.minutes');
         const secondsSpan = clock.querySelector('.seconds');
-      
+        
+        //funkcja aktualizująca pokazywany czas
         function updateClock() {
           const t = getTimeRemaining(endtime);
       
@@ -176,7 +179,7 @@ window.onload = function(){
           hoursSpan.innerHTML = ('0' + t.hours).slice(-2)+":";
           minutesSpan.innerHTML = ('0' + t.minutes).slice(-2)+":";
           secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
-      
+        
           if (t.total <= 0) {
               clearInterval(timeinterval);
                 store.forEach(function(item){
