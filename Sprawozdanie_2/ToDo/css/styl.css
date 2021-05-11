@@ -1,10 +1,84 @@
+body{
+    margin:auto;
+    background-image:url("../jpg/books.jpg") ;
+}
+header{
+    text-align:center;
+    font-size:2em;
+    clear:both;
+    height:30%;
+    margin-bottom: 50px;
+    
+}
+h1{
+    background-color: gray;
+    margin:0px;
+}
+main{
+    margin:auto;
+    height:60%;
+    min-height: 700px;
+    width:50%;
+    background-color: gainsboro;
+}
+.addItem{
+    padding:2em;
+}
+.listItem{
+    margin:0px;
+    
+    
+}
+ul{
+    display: flex;
+    flex-direction: column;
+    flex-wrap:wrap;
+    
+}
 #list{
-    font-size: 3em;
+    font-size: 2em;
     list-style: none;
+    margin:0px;
+}
+.item i.co:hover{
+    cursor: pointer;
+}
+.item i.del:hover{
+    cursor: pointer;
+}
+.fa-check-circle{
+    color:rgb(143, 204, 52);
 }
 .fa-check-circle:hover{
     color:greenyellow;
 }
+.fa-times-circle{
+    color:rgb(167, 30, 30);
+}
 .fa-times-circle:hover{
     color:red;
+}
+.fa-pen:hover{
+    cursor:pointer;
+}
+.fail{
+    color:rgb(211, 68, 68);
+}
+.lineThrough{
+    text-decoration: line-through;  
+    color: rgb(86, 153, 86); 
+    
+}
+.text{
+    margin:0px;
+}
+footer{
+    margin:auto;
+    background-color: grey;
+    height:30px;;
+    width:50%;
+}
+p{
+    margin: 0px;
+    font-size: 20px;
 }

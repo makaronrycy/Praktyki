@@ -1,3 +1,4 @@
+
 let data = localStorage.getItem("ToDo");
 
 window.onload = function(){
@@ -9,6 +10,8 @@ window.onload = function(){
     const check = "fa-check-circle";
     const uncheck = "fa-circle";
     const crossout = "lineThrough";
+    const failure = "fail";
+    
     let store, id;
 
     if(data){
@@ -19,39 +22,49 @@ window.onload = function(){
         store = [];
         id = 0;
     };
-
+    
     //ładowanie ToDo
     function loadToDo(table){
         table.forEach(function(item){
-            addToDo(item.id, item.name, item.datetime, item.done, item.trash);
+            addToDo(item.id, item.name, item.datetime, item.done, item.trash, item.fail);
         });
     };
-
+    clear.addEventListener("click",function(){
+        localStorage.clear();
+        location.reload();
+    });
     //dodawanie ToDo
-    function addToDo(id,name,datetime,done,trash){
+    function addToDo(id,name,datetime,done,trash,fail){
         if(trash){
             return;
         }
-        const deadline = new Date(datetime);
-        const completed = done ? check : uncheck;
-        const cross = done ? crossout : "";
-        const due = true;
-        const clockDiv = due ?`
+        if(fail){
+            var cross = failure
+        }else{
+            var cross = done ? crossout : ""
+        }
+        const completed = done ? check : uncheck; 
+        const checked = fail ? "":`<i class="far ${completed} co" id="${id}" job="complete"></i>`;
+        const clockDiv = fail || done || datetime == null ? "":`
             <div id="clockdiv${id}">
-                <span class="days">:</span>
-                <span class="hours">:</span>
-                <span class="minutes">:</span>
-                <span class="seconds">:</span>
-            </div>`:"";
+                <span class="days"></span>
+                <span class="hours"></span>
+                <span class="minutes"></span>
+                <span class="seconds"></span>
+            </div>`;
+            
         const html =`<li class="item">
-            <i class="far ${completed}" id="${id}" job="complete"></i>
-            <p class="text${cross}">${name}</p>
+            <p class="text ${cross}">${name}</p>
             ${clockDiv}
-            <i class="far fa-times-circle" id="${id}" job="delete"></i>
+            ${checked}
+            <i class="far fa-times-circle del" id="${id}" job="delete"></i>
+            <i class="fas fa-pen" id="${id}" job="edit"></i> 
             </li>`;
         const position = "beforeend";
         list.insertAdjacentHTML(position,html);
-        initializeClock('clockdiv', deadline, id);
+        if(fail==false && done == false && datetime != null){
+            initializeClock('clockdiv', datetime, id);
+        }
     };
 
     function checkToDo(element){
@@ -65,6 +78,20 @@ window.onload = function(){
         element.parentNode.parentNode.removeChild(element.parentNode);
         store[element.id].trash = true;
     };
+    function editToDo(element){
+        const edit = window.prompt("Na jaką nazwe chcesz zmienić ToDo?","Posprzątać pokój");
+        element.parentNode.querySelector(".text").innerHTML = edit;
+        store[element.id].name = edit;
+    }
+    
+    function failToDo(element,failId){
+        console.log(element);
+        const storeId = failId;
+        console.log("Failed!")
+        element.parentNode.querySelector(".text").classList.toggle(failure);
+        store[storeId].fail = true;
+        element.remove();
+    }
 
     list.addEventListener("click",function(event){
         const element = event.target;
@@ -73,41 +100,48 @@ window.onload = function(){
             checkToDo(element);
         }else if(job == "delete"){
             removeToDo(element);
+        }else if(job == "edit"){
+            editToDo(element);
         }
         localStorage.setItem("ToDo",JSON.stringify(store));
     });
-    clear.addEventListener("click",function(){
-        localStorage.clear();
-        location.reload();
-    });
+    
 
     document.addEventListener("keyup",function(event){
         if(event.key == "Enter"){
             const name = inputName.value;
             const date = inputDeadlineDate.value;
             const time = inputDeadlineTime.value;
-            const datetime = date+" "+time;
+            if(date){
+                var datetime = new Date(date+" "+time);
+            }else{
+                var datetime = null;
+            }
             if(name){
-                if(datetime){
-                    addToDo(id,name,datetime,false,false);
+                if(Date.parse(datetime)>Date.now()||datetime == null){
+                    addToDo(id,name,datetime,false,false,false);
                     store.push(
                         {
                             id:     id,
                             name:   name,
                             datetime: datetime,
                             done:   false,
-                            trash:  false
+                            trash:  false,
+                            fail: false
                         }
                     );
-                    id++;
-                    localStorage.setItem("ToDo", JSON.stringify(store));
                 }
+                else{
+                    window.alert("Nie możesz dawać zadań na przeszłość");
+                }
+                id++;
             }
             inputName.value = "";
             inputDeadlineDate.value = "";
             inputDeadlineTime.value = "";
-            
-        }
+            localStorage.setItem("ToDo", JSON.stringify(store));
+                }
+        
     });
     
     function getTimeRemaining(endtime) {
@@ -127,6 +161,7 @@ window.onload = function(){
       }
       
       function initializeClock(element, endtime,id) {
+          console.log("Konsola");
         const elementId = element.concat(id);
         const clock = document.getElementById(elementId);
         const daysSpan = clock.querySelector('.days');
@@ -137,22 +172,25 @@ window.onload = function(){
         function updateClock() {
           const t = getTimeRemaining(endtime);
       
-          daysSpan.innerHTML = t.days;
-          hoursSpan.innerHTML = ('0' + t.hours).slice(-2);
-          minutesSpan.innerHTML = ('0' + t.minutes).slice(-2);
+          daysSpan.innerHTML = t.days+":";
+          hoursSpan.innerHTML = ('0' + t.hours).slice(-2)+":";
+          minutesSpan.innerHTML = ('0' + t.minutes).slice(-2)+":";
           secondsSpan.innerHTML = ('0' + t.seconds).slice(-2);
       
           if (t.total <= 0) {
-            removeToDo()
-            clearInterval(timeinterval);
-
+              clearInterval(timeinterval);
+                store.forEach(function(item){
+                if(Date.parse(item.datetime)<=Date.now() && (item.trash) == false && (item.done)==false){
+                    
+                    console.log(item.id);
+                    const clockElement = document.getElementById("clockdiv"+ item.id);
+                    failToDo(clockElement,item.id);
+                    localStorage.setItem("ToDo", JSON.stringify(store));
+                }
+            })
           }
         }
-      
-        updateClock();
         const timeinterval = setInterval(updateClock, 1000);
+        updateClock();
       }
-      
-      //const deadline = new Date(Date.parse(new Date()) + 15 * 24 * 60 * 60 * 1000);
-      
 };
