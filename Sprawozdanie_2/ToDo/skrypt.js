@@ -39,11 +39,7 @@ window.onload = function(){
         if(trash){
             return;
         }
-        if(fail){
-            var cross = failure
-        }else{
-            var cross = done ? crossout : ""
-        }
+        const cross = fail ? failure : done ? crossout : ""
         const completed = done ? check : uncheck; 
         const checked = fail ? "":`<i class="far ${completed} co" id="${id}" job="complete"></i>`;
         const clockDiv = fail || done || datetime == null ? "":`
@@ -74,6 +70,7 @@ window.onload = function(){
         element.classList.toggle(uncheck);
         element.parentNode.querySelector(".text").classList.toggle(crossout);
         store[element.id].done = store[element.id].done ? false : true;
+        store[element.id].datetime = null;
     };
     //usuwanie ToDo
     function removeToDo(element){
@@ -83,14 +80,14 @@ window.onload = function(){
     //edytowanie nazwy ToDo
     function editToDo(element){
         const edit = window.prompt("Na jaką nazwe chcesz zmienić ToDo?","Posprzątać pokój");
+        if (edit){
         element.parentNode.querySelector(".text").innerHTML = edit;
         store[element.id].name = edit;
+        }
     }
     //funkcja wykonywana kiedy skończy się termin dla ToDo, jeśli go ma  
     function failToDo(element,failId){
-        console.log(element);
         const storeId = failId;
-        console.log("Failed!")
         element.parentNode.querySelector(".text").classList.toggle(failure);
         store[storeId].fail = true;
         element.remove();
@@ -106,7 +103,7 @@ window.onload = function(){
         }else if(job == "edit"){
             editToDo(element);
         }
-        //każda zmiana jest zapisywana w tablicy
+        //każda zmiana jest zapisywana w localStorage
         localStorage.setItem("ToDo",JSON.stringify(store));
     });
     //nasłuchiwanie enter
@@ -133,11 +130,12 @@ window.onload = function(){
                             fail: false
                         }
                     );
+                    id++;
                 }
                 else{
                     window.alert("Nie możesz dawać zadań na przeszłość");
                 }
-                id++;
+                
             }
             inputName.value = "";
             inputDeadlineDate.value = "";
@@ -146,7 +144,7 @@ window.onload = function(){
                 }
         
     });
-    //funkcja zwracająca ilość czasu jakąa została
+    //funkcja zwracająca ilość czasu jaką została
     function getTimeRemaining(endtime) {
         const total = Date.parse(endtime) - Date.parse(new Date());
         const seconds = Math.floor((total / 1000) % 60);
@@ -184,8 +182,6 @@ window.onload = function(){
               clearInterval(timeinterval);
                 store.forEach(function(item){
                 if(Date.parse(item.datetime)<=Date.now() && (item.trash) == false && (item.done)==false){
-                    
-                    console.log(item.id);
                     const clockElement = document.getElementById("clockdiv"+ item.id);
                     failToDo(clockElement,item.id);
                     localStorage.setItem("ToDo", JSON.stringify(store));
