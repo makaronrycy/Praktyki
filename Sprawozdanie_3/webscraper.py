@@ -14,10 +14,12 @@ def scrapeWiki(url):
         else:
             print("Niestety scraperowi nie udało sie znaleźć strony po 50 próbach")
         print(tabulate(table,headers=["Ilość hopek","Nazwa Artykułu","Link"]))
+
     def saveToTable(name,link):
         global table,hop
         table.append([hop,name,link])
         hop+=1
+        
     def responseGet(url):
         try:
             response = requests.get(url)
