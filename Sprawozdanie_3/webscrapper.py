@@ -10,10 +10,10 @@ def scrapeWiki(url):
     global destinationSlice,destination
     def finishWiki(result):
         if result==1:
-            print("Gratulacje! Scraperowi udało się odnaleźć link o który prosiles!")
+            print("Gratulacje! Scraperowi udało się odnaleźć link o który prosiłeś!")
         else:
-            print("Niestety scraperowi nie udało sie znalezc strony po 50 probach")
-        print(tabulate(table,headers=["Ilosc hopek","Nazwa artykulu","Link"]))
+            print("Niestety scraperowi nie udało sie znaleźć strony po 50 próbach")
+        print(tabulate(table,headers=["Ilość hopek","Nazwa Artykułu","Link"]))
     def saveToTable(name,link):
         global table,hop
         table.append([hop,name,link])
