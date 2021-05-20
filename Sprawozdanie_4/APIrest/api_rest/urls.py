@@ -8,6 +8,6 @@ router.register('guitar',GuitarViewSet, basename='guitar')
 
 urlpatterns = [
     path('generic/guitar/<int:id>/',GenericAPIView.as_view()),
-    path('viewset/<int:id>/', include(router.urls)),
+    path('/<int:id>/', include(router.urls)),
     path('', include(router.urls))
 ]
