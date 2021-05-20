@@ -1,7 +1,13 @@
-from django.urls import path
-from .views import guitar_detail, guitar_list,GuitarAPIView,GuitarDetails
+from django.urls import path,include
+from .views import GenericAPIView,GuitarViewSet
+from rest_framework.routers import DefaultRouter
+
+
+router = DefaultRouter()
+router.register('guitar',GuitarViewSet, basename='guitar')
+
 urlpatterns = [
-    #path('guitar/', guitar_list),
-    path('guitar/',GuitarAPIView.as_view()),
-    path('detail/<int:pk>/',GuitarDetails.as_view())
+    path('generic/guitar/<int:id>/',GenericAPIView.as_view()),
+    path('viewset/<int:id>/', include(router.urls)),
+    path('', include(router.urls))
 ]

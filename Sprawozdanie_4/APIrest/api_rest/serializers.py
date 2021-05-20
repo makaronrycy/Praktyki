@@ -5,5 +5,5 @@ from .models import Guitar
 class GuitarSerializer(serializers.ModelSerializer):
     class Meta:
         model = Guitar
-        fields = ['brand','series','body_type','average_price']
+        fields = ['id','type','brand','series','body_type','average_price']
 
