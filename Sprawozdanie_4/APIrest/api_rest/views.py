@@ -11,14 +11,12 @@ from rest_framework import viewsets
 class GuitarViewSet(viewsets.ModelViewSet):
     serializer_class = GuitarSerializer
     queryset = Guitar.objects.all()
-    authentication_classes = [SessionAuthentication,BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    authentication_classes = [BasicAuthentication]
 
 class GenericAPIView(generics.GenericAPIView,mixins.ListModelMixin,mixins.CreateModelMixin, mixins.UpdateModelMixin,mixins.RetrieveModelMixin,mixins.DestroyModelMixin):
     serializer_class = GuitarSerializer
     queryset = Guitar.objects.all()
-    authentication_classes = [SessionAuthentication,BasicAuthentication]
-    permission_classes = [IsAuthenticated]
+    authentication_classes = [BasicAuthentication]
 
     lookup_field = 'id'
 
